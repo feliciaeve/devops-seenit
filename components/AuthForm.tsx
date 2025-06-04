@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -34,7 +33,6 @@ export default function AuthForm() {
         }
     };
 
-    // Auto-close toast after 3s
     useEffect(() => {
         if (success) {
             const timer = setTimeout(() => setSuccess(''), 3000);
@@ -43,11 +41,11 @@ export default function AuthForm() {
     }, [success]);
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4 relative">
+        <div className="flex justify-center items-center min-h-screen bg-background text-foreground px-4 relative">
             {success && <SuccessToast message={success} />}
             <form
                 onSubmit={handleSubmit}
-                className="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 w-full max-w-sm"
+                className="bg-card text-card-foreground shadow-md rounded-lg px-8 pt-6 pb-8 w-full max-w-sm"
             >
                 <h2 className="text-2xl font-bold text-center mb-6">
                     {isLogin ? 'Login' : 'Register'}
@@ -60,11 +58,11 @@ export default function AuthForm() {
                 )}
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-semibold mb-2">
+                    <label className="block text-sm font-semibold mb-2 text-muted-foreground">
                         Email
                     </label>
                     <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                        className="bg-background border border-border rounded w-full py-2 px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring focus:ring-primary"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -74,11 +72,11 @@ export default function AuthForm() {
                 </div>
 
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-semibold mb-2">
+                    <label className="block text-sm font-semibold mb-2 text-muted-foreground">
                         Password
                     </label>
                     <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                        className="bg-background border border-border rounded w-full py-2 px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring focus:ring-primary"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -89,18 +87,18 @@ export default function AuthForm() {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+                    className="w-full bg-primary text-primary-foreground font-semibold py-2 px-4 rounded hover:brightness-90 transition duration-200"
                 >
                     {isLogin ? 'Login' : 'Register'}
                 </button>
 
-                <p className="text-center text-sm text-gray-600 mt-4">
+                <p className="text-center text-sm text-muted-foreground mt-4">
                     {isLogin
                         ? "Don't have an account?"
                         : 'Already have an account?'}{' '}
                     <button
                         type="button"
-                        className="text-blue-600 hover:underline"
+                        className="text-primary hover:underline"
                         onClick={() => setIsLogin(!isLogin)}
                     >
                         {isLogin ? 'Register' : 'Login'}
