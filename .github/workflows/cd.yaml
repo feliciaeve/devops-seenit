@@ -48,11 +48,12 @@ jobs:
               with:
                   credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-            - name: Deploy from Docker Hub to Cloud Run
-              uses: google-github-actions/deploy-cloudrun@v2
-              with:
-                  service: seenit
-                  image: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/seenit:latest
-                  region: ${{ secrets.GCP_REGION }}
-                  project_id: ${{ secrets.GCP_PROJECT_ID }}
-                  env_vars: TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
+            - name: Deploy to Cloud Run (via gcloud CLI)
+              run: |
+                gcloud run deploy seenit \
+                  --image=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/seenit:latest \
+                  --region=${{ secrets.GCP_REGION }} \
+                  --platform=managed \
+                  --project=${{ secrets.GCP_PROJECT_ID }} \
+                  --allow-unauthenticated \
+                  --set-env-vars=TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
