@@ -29,6 +29,6 @@ jobs:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               with:
                   args: >
-                      -Dsonar.projectKey=devops-seenit
+                      -Dsonar.projectKey=tristaavrilia_devops-seenit
                       -Dsonar.organization=tristaavrilia
                       -Dsonar.host.url=https://sonarcloud.io
