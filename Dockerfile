@@ -1,42 +1,23 @@
-# Stage 1: Build
-FROM node:lts-alpine AS builder
-
+# Tahap 1: Build
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-ARG TMDB_API_KEY
-ENV TMDB_API_KEY=$TMDB_API_KEY
+COPY package*.json ./
+RUN npm ci
 
-# Salin file dependency dan install
-COPY package.json package-lock.json ./
-RUN npm ci --legacy-peer-deps
-
-# Salin seluruh source code dan build
 COPY . .
 RUN npm run build
 
-# Stage 2: Production
-FROM node:lts-alpine AS runner
-
+# Tahap 2: Run standalone
+FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Set NODE_ENV production
 ENV NODE_ENV=production
-
-# Install hanya dependencies produksi
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --legacy-peer-deps
-
-# Salin hasil build dan config yang dibutuhkan
-COPY --from=builder /app/.next .next
-COPY --from=builder /app/public public
-COPY --from=builder /app/node_modules node_modules
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/next.config.js .
-COPY --from=builder /app/tsconfig.json .
-COPY --from=builder /app/next-env.d.ts .
-
-# Port default untuk Cloud Run
+ENV PORT=8080
 EXPOSE 8080
 
-# Start server di port 8080
-CMD ["npm", "start"]
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+CMD ["node", "server.js"]
