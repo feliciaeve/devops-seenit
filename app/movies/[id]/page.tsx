@@ -1,7 +1,11 @@
-import AddToWatchlistButton from '@/components/AddToWatchList';
+import AddToWatchList from '@/components/AddToWatchList';
 import LazyImage from '@/components/LazyImage';
 import MovieActorsSection from '@/components/MovieActorsSection';
+import RecommendationSection from '@/components/RecommendationSection';
+import HistoryRating from '@/components/HistoryRating';
 import { dateFormatter } from '@/lib/date-formatter';
+import { generateTmdbImagePath } from '@/lib/tmdb-image-path';
+import { getImageProps } from 'next/image';
 import { FaStar } from 'react-icons/fa6';
 import {
     getMovies,
@@ -9,10 +13,6 @@ import {
     getMovieDetails,
     getMovieRecommendations,
 } from '@/actions/movies';
-import { generateTmdbImagePath } from '@/lib/tmdb-image-path';
-import RecommendationSection from '@/components/RecommendationSection';
-import { getImageProps } from 'next/image';
-import ErrorMessage from '@/components/ErrorMessage';
 
 interface Params {
     params: Promise<{ id: string }>;
@@ -31,7 +31,6 @@ export const generateStaticParams = async () => {
 
 export const generateMetadata = async ({ params }: Params) => {
     const movieId = (await params).id;
-
     const movie = await getMovieDetails(movieId);
 
     return {
@@ -77,53 +76,56 @@ export default async function MoviePage({ params }: Params) {
                             className="rounded-lg border-4 border-border/30"
                         />
                     </div>
+
                     <div className="w-full md:w-2/3 space-y-4">
                         <h1 className="text-2xl font-bold">{movie.title}</h1>
-                        <div className="flex items-center gap-2">
-                            <span className="inline-flex gap-2 items-center text-sm">
+
+                        <div className="flex items-center gap-2 text-sm">
+                            <span className="inline-flex items-center gap-1">
                                 <FaStar size={14} className="text-orange-500" />
                                 {movie.vote_average.toFixed(1)}
                             </span>
-
-                            <span className="size-1 bg-gray-500 rounded-full"></span>
-
-                            <span className="text-sm">
-                                {movie.vote_count} votes
-                            </span>
-
-                            <span className="size-1 bg-gray-500 rounded-full"></span>
-
-                            <span className="text-sm">
+                            <span className="size-1 bg-gray-500 rounded-full" />
+                            <span>{movie.vote_count} votes</span>
+                            <span className="size-1 bg-gray-500 rounded-full" />
+                            <span>
                                 {dateFormatter(new Date(movie.release_date))}
                             </span>
                         </div>
 
-                        <div className="flex gap-2 items-center text-sm !mt-0">
-                            {movie.genres.map((genre, idx) => (
-                                <div key={genre.id}>
-                                    <span
-                                        key={genre.id}
-                                        className="rounded text-sm"
-                                    >
-                                        {genre.name}
-                                    </span>
-                                    {idx < movie.genres.length - 1 && (
-                                        <span className="size-1 bg-gray-500 rounded-full"></span>
-                                    )}
-                                </div>
+                        <div className="flex flex-wrap gap-2 text-sm">
+                            {movie.genres.map((genre) => (
+                                <span
+                                    key={genre.id}
+                                    className="bg-white/10 px-2 py-1 rounded-full"
+                                >
+                                    {genre.name}
+                                </span>
                             ))}
                         </div>
 
-                        <p className="text-sm font-bold">{movie.tagline}</p>
-                        <h5 className="text-xs font-bold uppercase">
-                            Overview
-                        </h5>
-                        <p className="!mt-1">{movie.overview}</p>
+                        <p className="text-sm italic">{movie.tagline}</p>
 
-                        <AddToWatchlistButton movieId={movie.id} />
+                        <h3 className="text-sm font-semibold uppercase">
+                            Overview
+                        </h3>
+                        <p>{movie.overview}</p>
+
+                        <AddToWatchList movieId={movie.id} />
+
+                        <div className="mt-6">
+                            <h2 className="text-xl font-bold mb-2">
+                                Your Review
+                            </h2>
+                            <HistoryRating
+                                movieId={movie.id.toString()}
+                                movieTitle={movie.title}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
+
             <div className="container space-y-8">
                 <MovieActorsSection cast={credits.cast} />
                 <RecommendationSection

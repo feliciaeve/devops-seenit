@@ -63,8 +63,18 @@ const config: Config = {
                 center: true,
                 padding: '15px',
             },
+            animation: {
+                'fade-in-out': 'fadeInOut 3s ease-in-out',
+            },
+            keyframes: {
+                fadeInOut: {
+                    '0%, 100%': { opacity: '0' },
+                    '10%, 90%': { opacity: '1' },
+                },
+            },
         },
     },
     plugins: [require('tailwindcss-animate')],
 };
+
 export default config;
