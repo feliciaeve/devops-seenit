@@ -50,8 +50,8 @@ jobs:
 
             - name: Deploy to Cloud Run (via gcloud CLI)
               run: |
-                gcloud run deploy seenit \
-                  --image=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/seenit:latest \
+                gcloud run deploy seenit-trista \
+                  --image=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/seenit-trista:latest \
                   --region=${{ secrets.GCP_REGION }} \
                   --platform=managed \
                   --project=${{ secrets.GCP_PROJECT_ID }} \
