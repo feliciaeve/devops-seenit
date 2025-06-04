@@ -1,33 +1,42 @@
-# Tahap 1: Build
-FROM node:20-alpine AS builder
+# Stage 1: Build
+FROM node:lts-alpine AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Salin dependency dan install
-COPY package*.json ./
-RUN npm ci
+ARG TMDB_API_KEY
+ENV TMDB_API_KEY=$TMDB_API_KEY
 
-# Salin seluruh source code dan build Next.js app
+# Salin file dependency dan install
+COPY package.json package-lock.json ./
+RUN npm ci --legacy-peer-deps
+
+# Salin seluruh source code dan build
 COPY . .
 RUN npm run build
 
-# Tahap 2: Jalankan hasil build
-FROM node:20-alpine AS runner
+# Stage 2: Production
+FROM node:lts-alpine AS runner
 
-# Working directory
 WORKDIR /app
 
-# Salin file produksi dari tahap builder
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/.next .next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-
-# Set env untuk production
+# Set NODE_ENV production
 ENV NODE_ENV=production
-ENV PORT=3000
 
-# Jalankan Next.js
-EXPOSE 3000
+# Install hanya dependencies produksi
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --legacy-peer-deps
+
+# Salin hasil build dan config yang dibutuhkan
+COPY --from=builder /app/.next .next
+COPY --from=builder /app/public public
+COPY --from=builder /app/node_modules node_modules
+COPY --from=builder /app/package.json .
+COPY --from=builder /app/next.config.js .
+COPY --from=builder /app/tsconfig.json .
+COPY --from=builder /app/next-env.d.ts .
+
+# Port default untuk Cloud Run
+EXPOSE 8080
+
+# Start server di port 8080
 CMD ["npm", "start"]
