@@ -2,7 +2,6 @@ name: CI Branch Workflow
 
 on:
     push:
-        # Trigger untuk semua branch kecuali main
         branches-ignore:
             - main
 
