@@ -15,19 +15,15 @@ module.exports = {
     coverageDirectory: 'coverage',
     coverageReporters: ['lcov', 'text'],
     collectCoverageFrom: [
-        'app/**/*.{ts,tsx}',
-        'components/**/*.{ts,tsx}',
-        '!app/**/page.tsx',
-        '!app/api/**',
-        '!**/node_modules/**',
-        '!**/.next/**',
+        'app//*.{ts,tsx}',
+        'components//*.{ts,tsx}',
+        '!app//page.tsx',
+        '!app/api/',
+        '!/node_modules/',
+        '!/.next/',
     ],
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/$1',
-        '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
-        '^swiper/css$': require.resolve('./__mocks__/styleMock.js'),
+           '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     },
-    transformIgnorePatterns: [
-        'node_modules/(?!(swiper)/)', // hanya transform 'swiper'
-    ],
 };
