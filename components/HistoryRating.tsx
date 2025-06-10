@@ -57,7 +57,7 @@ export default function WatchAndRateForm({
             {success && <p className="text-green-600 text-sm">{success}</p>}
             <form onSubmit={handleSubmit} className="space-y-2">
                 <label className="block">
-                    Rating (1–10):
+                    Rating (1-10):
                     <input
                         type="number"
                         min="1"

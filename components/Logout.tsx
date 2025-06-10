@@ -10,7 +10,7 @@ export default function LogoutButton() {
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            router.refresh(); // reload ulang halaman agar LoginGuard trigger ulang
+            router.refresh();
         } catch (error) {
             console.error('Logout failed:', error);
         }
