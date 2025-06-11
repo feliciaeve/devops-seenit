@@ -33,6 +33,6 @@ jobs:
               with:
                   args: >
                       -Dsonar.projectKey=Natashayp_seenit-coba1
-                      -Dsonar.organization=Natashayp
+                      -Dsonar.organization=natashayp
                       -Dsonar.host.url=https://sonarcloud.io
                       -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
