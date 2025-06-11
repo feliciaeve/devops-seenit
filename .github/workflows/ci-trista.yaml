@@ -25,17 +25,3 @@ jobs:
 
       - name: Run tests and generate coverage
         run: npm run test -- --coverage
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=tristaavrilia_devops-seenit
-            -Dsonar.organization=tristaavrilia
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.sources=src,components
-            -Dsonar.tests=_mocks_
-            -Dsonar.exclusions=**/*.test.tsx,**/*.test.ts
