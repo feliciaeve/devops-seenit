@@ -39,7 +39,7 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/seenit-feli:latest
+                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/seenit-tasha:latest
                   build-args: |
                       TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
 
@@ -51,9 +51,23 @@ jobs:
             - name: Deploy from Docker Hub to Cloud Run
               uses: google-github-actions/deploy-cloudrun@v2
               with:
-                  service: seenit-feli
-                  image: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/seenit-feli:latest
+                  service: devops-seenit
+                  image: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/devops-tasha:latest
                   region: ${{ secrets.GCP_REGION }}
                   project_id: ${{ secrets.GCP_PROJECT_ID }}
                   timeout: 900
                   env_vars: TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
+
+            - name: Checkout repository # add ini buat sentry
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0  
+
+            - name: Create Sentry release # add ini buat sentry
+              uses: getsentry/action-release@v1
+              with:
+                  environment: production
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+                  SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
