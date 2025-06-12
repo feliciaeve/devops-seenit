@@ -60,10 +60,10 @@ jobs:
               
             - name: Test Prometheus locally
               run: |
-                docker-compose up -d
+                docker compose up -d
                 sleep 5
                 curl -f http://localhost:3000/api/metrics
-                docker-compose down
+                docker compose down
 
             - name: Build & Push image to Docker Hub
               uses: docker/build-push-action@v5

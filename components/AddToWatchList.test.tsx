@@ -7,7 +7,6 @@ jest.mock('react-hot-toast', () => ({
     error: jest.fn(),
 }));
 
-// Mock useWatchlist hook
 jest.mock('@/hooks/use-watchlist', () => ({
     useWatchlist: jest.fn(),
 }));

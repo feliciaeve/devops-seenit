@@ -1,17 +1,16 @@
-import { NextRequest } from 'next/server';
-import client from 'prom-client';
+// app/api/metrics/route.ts
+import { Registry, collectDefaultMetrics } from 'prom-client';
+import { NextResponse } from 'next/server';
 
-if (!(global as any).prometheusMetricsInitialized) {
-  client.collectDefaultMetrics();
-  (global as any).prometheusMetricsInitialized = true;
-}
+const register = new Registry();
+collectDefaultMetrics({ register });
 
-export async function GET(req: NextRequest) {
-  const metrics = await client.register.metrics();
-  return new Response(metrics, {
+export async function GET() {
+  const metrics = await register.metrics();
+  return new NextResponse(metrics, {
     status: 200,
     headers: {
-      'Content-Type': client.register.contentType,
+      'Content-Type': register.contentType,
     },
   });
 }
