@@ -1,5 +1,5 @@
-import HistoryPage from '@/components/HistoryPage';
+// import HistoryPage from '@/components/HistoryPage';
 
-export default function Page() {
-  return <HistoryPage />;
-}
+// export default function Page() {
+//   return <HistoryPage />;
+// }
