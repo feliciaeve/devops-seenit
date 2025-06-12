@@ -6,7 +6,7 @@ sonar.host.url=https://sonarcloud.io
 # Source files
 sonar.sources=.
 
-# Exclude files/folders sesuai jest.config.js collectCoverageFrom exclusions
+# Exclude files/folders sesuai jest.config.js
 sonar.exclusions=\
 components/LazyImage.tsx,\
 components/MovieActorsSection.tsx,\
