@@ -36,15 +36,8 @@ COPY --from=builder /app/tsconfig.json .
 COPY --from=builder /app/next-env.d.ts .
 
 # Port default untuk Cloud Run
-<<<<<<< HEAD
-ENV PORT=8080
+
 EXPOSE 8080
 
 # Start server di port 8080
 CMD ["npm", "start"]
-=======
-EXPOSE 8080
-
-# Start server di port 8080
-CMD ["npm", "start"]
->>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107

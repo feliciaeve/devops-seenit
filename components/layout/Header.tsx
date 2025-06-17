@@ -7,11 +7,8 @@ import { FaHeart } from 'react-icons/fa6';
 import { LuMoonStar, LuSun } from 'react-icons/lu';
 import SearchForm from '../forms/SearchForm';
 import { useMemo } from 'react';
-<<<<<<< HEAD
-import Logout from '../Logout'; // Pastikan path ini sesuai
-=======
 import Logout from '../Logout';
->>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
+
 
 export default function Header() {
     const { theme, setTheme, systemTheme } = useTheme();

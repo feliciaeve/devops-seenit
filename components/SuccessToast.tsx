@@ -1,11 +1,5 @@
 'use client';
 
-<<<<<<< HEAD
-export default function SuccessToast({ message }: { message: string }) {
-    return (
-        <div className="fixed top-6 right-6 z-50 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in-out">
-        <span className="font-semibold">{message}</span>
-=======
 import { useState } from 'react';
 
 export default function SuccessToast({ message }: { message: string }) {
@@ -22,7 +16,6 @@ export default function SuccessToast({ message }: { message: string }) {
             >
                 ×
             </button>
->>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
         </div>
     );
 }

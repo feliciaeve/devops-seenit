@@ -1,14 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-<<<<<<< HEAD
-  reactStrictMode: true,
-  output: 'standalone',
-}
-
-module.exports = {
-  output: 'standalone',
-};
-=======
     images: {
         remotePatterns: [
             {
@@ -22,19 +13,16 @@ module.exports = {
 
 module.exports = nextConfig;
 
-
 // Injected content via Sentry wizard below
 
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withSentryConfig } = require('@sentry/nextjs');
 
-module.exports = withSentryConfig(
-  module.exports,
-  {
+module.exports = withSentryConfig(module.exports, {
     // For all available options, see:
     // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-    org: "trista-avrilia-santoso",
-    project: "seenit-devops",
+    org: 'trista-avrilia-santoso',
+    project: 'seenit-devops',
 
     // Only print logs for uploading source maps in CI
     silent: !process.env.CI,
@@ -59,6 +47,4 @@ module.exports = withSentryConfig(
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
-  }
-);
->>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
+});

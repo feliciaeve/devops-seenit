@@ -14,22 +14,12 @@ export default function LoginGuard({
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-<<<<<<< HEAD
             setUser(currentUser); // null jika belum login
         });
 
         return () => unsubscribe(); // Cleanup listener
     }, []);
 
-    // ✅ Menunggu auth state
-=======
-            setUser(currentUser);
-        });
-
-        return () => unsubscribe();
-    }, []);
-
->>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
     if (user === undefined) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -40,15 +30,11 @@ export default function LoginGuard({
         );
     }
 
-    // ⛔ Belum login → Tampilkan form login/register
+    //  Belum login → Tampilkan form login/register
     if (!user) {
         return <AuthForm />;
     }
 
-    // ✅ Sudah login → Lanjut ke halaman
+    // Sudah login → Lanjut ke halaman
     return <>{children}</>;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
