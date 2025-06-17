@@ -58,10 +58,21 @@ export default function AuthForm() {
                 )}
 
                 <div className="mb-4">
+<<<<<<< HEAD
                     <label className="block text-sm font-semibold mb-2 text-muted-foreground">
                         Email
                     </label>
                     <input
+=======
+                    <label
+                        htmlFor="email"
+                        className="block text-sm font-semibold mb-2 text-muted-foreground"
+                    >
+                        Email
+                    </label>
+                    <input
+                        id="email"
+>>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
                         className="bg-background border border-border rounded w-full py-2 px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring focus:ring-primary"
                         type="email"
                         value={email}
@@ -72,10 +83,21 @@ export default function AuthForm() {
                 </div>
 
                 <div className="mb-6">
+<<<<<<< HEAD
                     <label className="block text-sm font-semibold mb-2 text-muted-foreground">
                         Password
                     </label>
                     <input
+=======
+                    <label
+                        htmlFor="password"
+                        className="block text-sm font-semibold mb-2 text-muted-foreground"
+                    >
+                        Password
+                    </label>
+                    <input
+                        id="password"
+>>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
                         className="bg-background border border-border rounded w-full py-2 px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring focus:ring-primary"
                         type="password"
                         value={password}
@@ -107,4 +129,8 @@ export default function AuthForm() {
             </form>
         </div>
     );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107

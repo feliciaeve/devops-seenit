@@ -7,8 +7,13 @@
         "strict": true,
         "noEmit": true,
         "esModuleInterop": true,
+<<<<<<< HEAD
         "module": "esnext",
         "moduleResolution": "bundler",
+=======
+        "module": "commonjs",
+        "moduleResolution": "node",
+>>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107
         "resolveJsonModule": true,
         "isolatedModules": true,
         "jsx": "preserve",
@@ -20,9 +25,25 @@
         ],
         "baseUrl": ".",
         "paths": {
+<<<<<<< HEAD
             "@/*": ["*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next.config.js"],
     "exclude": ["node_modules"]
 }
+=======
+            "@/*": ["./*"]
+        }
+    },
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "jest.config.js",
+        "jest.setup.ts"
+    ],
+    "exclude": ["node_modules"]
+}
+>>>>>>> fd40b11abc122a6d51e8e87092c0ca94de593107

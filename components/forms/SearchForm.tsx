@@ -35,7 +35,11 @@ const SearchForm = () => {
     const debouncedSearch = useCallback(debounce(handleSearch, 500), []);
 
     return (
-        <form onSubmit={handleSubmit(debouncedSearch)} className="flex-1 mx-4">
+        <form
+            data-testid="search-form"
+            onSubmit={handleSubmit(debouncedSearch)}
+            className="flex-1 mx-4"
+        >
             <Input
                 type="text"
                 placeholder="Search movies..."

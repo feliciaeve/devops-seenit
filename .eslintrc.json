@@ -1,10 +1,20 @@
 {
-  "extends": "next/core-web-vitals",
-  "ignorePatterns": [
-    "lib/pdfParser/pdf.js"
-  ],
-  "rules": {
-    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
-    "react-hooks/exhaustive-deps": "off"
-  }
+    "extends": "next/core-web-vitals",
+    "ignorePatterns": ["lib/pdfParser/pdf.js"],
+    "rules": {
+        "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+        "react-hooks/exhaustive-deps": "off"
+    },
+    "overrides": [
+        {
+            "files": [
+                "**/*.test.{js,jsx,ts,tsx}",
+                "**/__tests__/**/*.{js,jsx,ts,tsx}"
+            ],
+            "rules": {
+                "react/display-name": "off",
+                "no-unused-vars": "off"
+            }
+        }
+    ]
 }

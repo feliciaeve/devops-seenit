@@ -1,0 +1,41 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    integration:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Install dependencies
+              run: npm ci --legacy-peer-deps
+
+            - name: Run Linter
+              run: npm run lint
+
+            - name: Run tests with coverage
+              run: npm run test:coverage
+
+            - name: SonarQube Scan
+              uses: SonarSource/sonarqube-scan-action@v5.0.0
+              env:
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              with:
+                  args: >
+                      -Dsonar.projectKey=feliciaeve_devops-seenit
+                      -Dsonar.organization=devops-seenit
+                      -Dsonar.host.url=https://sonarcloud.io
+                      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                      -Dsonar.exclusions="**/__tests__/**,**/*.test.tsx,components/LazyImage.tsx,components/MovieActorsSection.tsx,components/MovieCardWatchlistWrapper.tsx,components/SuccessToast.tsx,components/layout/ThemeProvider.tsx,app/**/page.tsx,app/global-error.tsx,app/api/**,**/node_modules/**,**/.next/**"

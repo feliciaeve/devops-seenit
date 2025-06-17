@@ -1,0 +1,30 @@
+# Project identity
+sonar.projectKey=feliciaeve_devops-seenit
+sonar.organization=devops-seenit
+sonar.host.url=https://sonarcloud.io
+
+# Source files
+sonar.sources=app,components
+
+# Exclude files/folders sesuai jest.config.js
+sonar.exclusions=\
+components/LazyImage.tsx,\
+components/MovieActorsSection.tsx,\
+components/MovieCardWatchlistWrapper.tsx,\
+components/SuccessToast.tsx,\
+components/layout/ThemeProvider.tsx,\
+app/**/page.tsx,\
+app/global-error.tsx,\
+app/api/**,\
+**/node_modules/**,\
+**/.next/**
+
+# Tests location
+sonar.tests=__tests__
+
+# Jest coverage report
+sonar.javascript.lcov.reportPaths=coverage/lcov.info
+
+# Language & encoding
+sonar.language=js,ts,tsx
+sonar.sourceEncoding=UTF-8
