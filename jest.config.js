@@ -14,6 +14,10 @@ module.exports = {
     collectCoverage: true,
     coverageDirectory: 'coverage',
     coverageReporters: ['text', 'lcov'],
+    testMatch: [
+        '**/__tests__/**/*.(test|spec).(ts|tsx|js)',
+        '**/?(*.)+(spec|test).(ts|tsx|js)',
+    ],
     collectCoverageFrom: [
         'app/**/*.{ts,tsx}',
         'components/**/*.{ts,tsx}',

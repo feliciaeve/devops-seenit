@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SearchForm from './SearchForm';
+import SearchForm from '../components/forms/SearchForm';
 import { useRouter } from 'next/navigation';
 
 // Mock next/navigation useRouter

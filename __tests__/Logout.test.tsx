@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import LogoutButton from './Logout';
+import LogoutButton from '../components/Logout';
 
 jest.mock('firebase/auth', () => ({
     signOut: jest.fn(),

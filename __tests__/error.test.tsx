@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
-import ErrorComponent from './error';
+import ErrorComponent from '../app/movies/[id]/error';
 
 jest.mock('@/components/ErrorMessage', () => ({ message, reset }: any) => (
     <>

@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import InfiniteMovies from './InfiniteMovies';
+import InfiniteMovies from '../components/InfiniteMovies';
 import { useInView } from 'react-intersection-observer';
 import { getMovies } from '@/actions/movies';
 
@@ -16,7 +16,7 @@ jest.mock('@/actions/movies', () => ({
     ),
 }));
 
-jest.mock('./MovieCard', () => ({ movie }: { movie: any }) => (
+jest.mock('../components/MovieCard', () => ({ movie }: { movie: any }) => (
     <div data-testid="movie-card">{movie.title}</div>
 ));
 

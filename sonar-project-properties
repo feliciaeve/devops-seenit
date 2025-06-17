@@ -4,7 +4,7 @@ sonar.organization=devops-seenit
 sonar.host.url=https://sonarcloud.io
 
 # Source files
-sonar.sources=.
+sonar.sources=app,components
 
 # Exclude files/folders sesuai jest.config.js
 sonar.exclusions=\
@@ -20,7 +20,7 @@ app/api/**,\
 **/.next/**
 
 # Tests location
-sonar.tests=.
+sonar.tests=__tests__
 
 # Jest coverage report
 sonar.javascript.lcov.reportPaths=coverage/lcov.info

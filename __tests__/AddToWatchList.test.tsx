@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import AddToWatchlist from './AddToWatchList';
+import AddToWatchlist from '../components/AddToWatchList';
 
 jest.mock('react-hot-toast', () => ({
     __esModule: true,

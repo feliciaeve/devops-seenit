@@ -1,15 +1,17 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import Header from './Header';
+import Header from '../components/layout/Header';
 import { useTheme } from 'next-themes';
 
 jest.mock('next/link', () => {
     return ({ children }: { children: React.ReactNode }) => children;
 });
 
-jest.mock('../forms/SearchForm', () => () => <div data-testid="search-form" />);
+jest.mock('../components/forms/SearchForm', () => () => (
+    <div data-testid="search-form" />
+));
 
 // Mock komponen Logout agar tidak ikut dirender (cukup placeholder)
-jest.mock('../Logout', () => () => (
+jest.mock('../components/Logout', () => () => (
     <button data-testid="logout-btn">Logout</button>
 ));
 
