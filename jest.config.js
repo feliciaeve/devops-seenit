@@ -26,6 +26,7 @@ module.exports = {
         '!components/MovieCardWatchlistWrapper.tsx',
         '!components/SuccessToast.tsx',
         '!components/layout/ThemeProvider.tsx',
+        '!app/layout.tsx',
         '!app/**/page.tsx',
         '!app/global-error.tsx',
         '!app/api/**',

@@ -3,7 +3,12 @@ import userEvent from '@testing-library/user-event';
 import SearchForm from '../components/forms/SearchForm';
 import { useRouter } from 'next/navigation';
 
-// Mock next/navigation useRouter
+// Mock debounce agar langsung dipanggil tanpa delay
+jest.mock('@/lib/debounce', () => ({
+    debounce: (fn: any) => fn,
+}));
+
+// Mock useRouter
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
