@@ -34,7 +34,7 @@ jobs:
               uses: getsentry/action-release@v1
               with:
                   environment: production
-                  ignore-missing: true
+                  ignore_missing: true
                   version: ${{ github.sha }}
 
             - name: Install Sentry CLI
