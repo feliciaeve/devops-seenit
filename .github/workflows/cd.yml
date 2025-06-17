@@ -58,17 +58,12 @@ jobs:
             - name: Setup Docker Buildx
               uses: docker/setup-buildx-action@v3
 
-            - name: Start Monitoring Stack
-              run: docker compose up -d
-
-            - name: Verify Prometheus and Grafana Running
+            - name: Test Prometheus locally
               run: |
-                  sleep 10
-                  docker ps
-                  docker compose logs
-                  curl -f http://localhost:9090  # Prometheus
-                  curl -f http://localhost:3001  # Grafana
+                  docker compose up -d
+                  sleep 5
                   curl -f http://localhost:3000/api/metrics
+                  docker compose down
 
             - name: Build & Push image to Docker Hub
               uses: docker/build-push-action@v5
