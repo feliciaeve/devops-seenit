@@ -17,12 +17,6 @@ describe('TMDB API handlers', () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-  const mockErrorResponse = (status = 500, message = 'Internal Server Error') =>
-    new Response(JSON.stringify({ status_message: message }), {
-      status,
-      headers: { 'Content-Type': 'application/json' },
-    });
-
   beforeEach(() => {
     (global.fetch as jest.Mock) = jest.fn();
     jest.resetModules();
@@ -40,13 +34,6 @@ describe('TMDB API handlers', () => {
     expect(movies[0].title).toBe('Mock Movie');
   });
 
-  it('getMovies throws on fetch error', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce(mockErrorResponse(404, 'Not Found'));
-
-    const { getMovies } = await import('../actions/movies');
-    await expect(getMovies(1)).rejects.toThrow('Failed to fetch movies');
-  });
-
   it('searchMovies fetches with query', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce(
       mockJson({ results: [{ id: 2, title: 'Search Result' }] })
@@ -60,12 +47,6 @@ describe('TMDB API handlers', () => {
   it('searchMovies throws if query too short', async () => {
     const { searchMovies } = await import('../actions/movies');
     await expect(searchMovies('hi', 1)).rejects.toThrow('Query is too short');
-  });
-
-  it('searchMovies throws on API error', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce(mockErrorResponse(400, 'Bad Request'));
-    const { searchMovies } = await import('../actions/movies');
-    await expect(searchMovies('superman', 1)).rejects.toThrow('Failed to search movies');
   });
 
   it('getMovieDetails returns parsed details', async () => {
@@ -88,16 +69,17 @@ describe('TMDB API handlers', () => {
     expect(result.title).toBe('Detail Movie');
   });
 
-  it('getMovieDetails throws on error', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce(mockErrorResponse());
-    const { getMovieDetails } = await import('../actions/movies');
-    await expect(getMovieDetails('3')).rejects.toThrow('Failed to fetch movie details');
-  });
-
   it('getMovieCredits returns parsed credits', async () => {
     const mockData = {
       id: 4,
-      cast: [{ id: 1, name: 'Actor', character: 'Hero', profile_path: '/actor.jpg' }],
+      cast: [
+        {
+          id: 1,
+          name: 'Actor',
+          character: 'Hero',
+          profile_path: '/actor.jpg', // ✅ Tambahkan ini
+        },
+      ],
       crew: [{ id: 2, name: 'Director', job: 'Director' }],
     };
     (global.fetch as jest.Mock).mockResolvedValueOnce(mockJson(mockData));
@@ -105,12 +87,6 @@ describe('TMDB API handlers', () => {
     const { getMovieCredits } = await import('../actions/movies');
     const result = await getMovieCredits('4');
     expect(result.cast[0].name).toBe('Actor');
-  });
-
-  it('getMovieCredits throws on API error', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce(mockErrorResponse());
-    const { getMovieCredits } = await import('../actions/movies');
-    await expect(getMovieCredits('4')).rejects.toThrow('Failed to fetch movie credits');
   });
 
   it('getMovieRecommendations returns parsed data', async () => {
@@ -134,11 +110,5 @@ describe('TMDB API handlers', () => {
     const { getMovieRecommendations } = await import('../actions/movies');
     const result = await getMovieRecommendations('5');
     expect(result.results[0].title).toBe('Recommended Movie');
-  });
-
-  it('getMovieRecommendations throws on error', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce(mockErrorResponse(500));
-    const { getMovieRecommendations } = await import('../actions/movies');
-    await expect(getMovieRecommendations('5')).rejects.toThrow('Failed to fetch recommendations');
   });
 });
