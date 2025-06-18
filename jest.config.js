@@ -19,6 +19,7 @@ module.exports = {
         '**/?(*.)+(spec|test).(ts|tsx|js)',
     ],
     collectCoverageFrom: [
+        'actions/**/*.{ts,tsx}',
         'app/**/*.{ts,tsx}',
         'components/**/*.{ts,tsx}',
         '!components/LazyImage.tsx',
@@ -31,7 +32,7 @@ module.exports = {
         '!app/global-error.tsx',
         '!app/api/**',
         '!**/node_modules/**',
-        '!**/.next/**',
+        '!**/.next/**', 
     ],
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/$1',
