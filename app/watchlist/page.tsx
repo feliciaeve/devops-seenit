@@ -1,6 +1,7 @@
 import { getWatchlistProducts } from '@/actions/watchlist';
 import MovieCard from '@/components/MovieCard';
 import MovieCardWatchlistWrapper from '@/components/MovieCardWatchlistWrapper';
+import WatchAndRateForm from '@/components/HistoryRating';
 
 const WatchlistPage = async () => {
     const watchlist = await getWatchlistProducts();
@@ -11,14 +12,21 @@ const WatchlistPage = async () => {
             {watchlist.length === 0 ? (
                 <p>Your watchlist is empty.</p>
             ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {watchlist.map((movie) => (
-                        <MovieCardWatchlistWrapper
-                            movieId={movie.id}
+                        <div
                             key={movie.id}
+                            className="border p-4 rounded bg-white shadow"
                         >
-                            <MovieCard movie={movie} />
-                        </MovieCardWatchlistWrapper>
+                            <MovieCardWatchlistWrapper movieId={movie.id}>
+                                <MovieCard movie={movie} />
+                            </MovieCardWatchlistWrapper>
+
+                            <WatchAndRateForm
+                                movieId={movie.id.toString()}
+                                movieTitle={movie.title}
+                            />
+                        </div>
                     ))}
                 </div>
             )}

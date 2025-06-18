@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import WatchAndRateForm from './HistoryRating';
+import WatchAndRateForm from '../components/HistoryRating';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, deleteDoc } from 'firebase/firestore';
 
 jest.mock('react-firebase-hooks/auth', () => ({
     useAuthState: jest.fn(),
@@ -15,6 +15,7 @@ jest.mock('@/firebase', () => ({
 jest.mock('firebase/firestore', () => ({
     doc: jest.fn(),
     setDoc: jest.fn(),
+    deleteDoc: jest.fn(),
     serverTimestamp: jest.fn(() => 'timestamp'),
 }));
 
@@ -27,11 +28,15 @@ describe('WatchAndRateForm', () => {
 
     it('renders form with default values', () => {
         (useAuthState as jest.Mock).mockReturnValue([mockUser]);
+
         render(<WatchAndRateForm movieId="m1" movieTitle="Test Movie" />);
 
         expect(screen.getByText(/your review/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/rating/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/comment/i)).toBeInTheDocument();
+        expect(
+            screen.getByRole('button', { name: /submit/i }),
+        ).toBeInTheDocument();
     });
 
     it('submits the form and shows success message', async () => {
@@ -50,9 +55,11 @@ describe('WatchAndRateForm', () => {
         fireEvent.click(screen.getByRole('button', { name: /submit/i }));
 
         await waitFor(() => {
-            expect(setDoc).toHaveBeenCalledTimes(2); // once on mount, once on submit
-            expect(screen.getByText(/thank you/i)).toBeInTheDocument();
+            expect(setDoc).toHaveBeenCalledTimes(2);
+            expect(deleteDoc).toHaveBeenCalledTimes(1);
         });
+
+        expect(await screen.findByText(/thank you/i)).toBeInTheDocument();
     });
 
     it('does not submit if user is not logged in', () => {
@@ -62,5 +69,6 @@ describe('WatchAndRateForm', () => {
         fireEvent.click(screen.getByRole('button', { name: /submit/i }));
 
         expect(setDoc).not.toHaveBeenCalled();
+        expect(deleteDoc).not.toHaveBeenCalled();
     });
 });

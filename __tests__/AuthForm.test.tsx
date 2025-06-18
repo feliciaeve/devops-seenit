@@ -1,11 +1,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import AuthForm from './AuthForm';
+import AuthForm from '../components/AuthForm';
 import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
-// Mock Firebase methods
 jest.mock('firebase/auth', () => ({
     signInWithEmailAndPassword: jest.fn(),
     createUserWithEmailAndPassword: jest.fn(),
@@ -14,9 +13,12 @@ jest.mock('@/firebase', () => ({
     auth: {},
 }));
 
-jest.mock('./SuccessToast', () => ({ message }: { message: string }) => (
-    <div>{message}</div>
-));
+jest.mock(
+    '../components/SuccessToast',
+    () =>
+        ({ message }: { message: string }) =>
+            <div>{message}</div>,
+);
 
 describe('AuthForm', () => {
     beforeEach(() => {

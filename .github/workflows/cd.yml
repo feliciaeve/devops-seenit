@@ -7,12 +7,16 @@ on:
 jobs:
     deploy:
         runs-on: ubuntu-latest
-
         env:
             TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+            SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+            SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+            SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
 
         steps:
             - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v4
@@ -25,11 +29,31 @@ jobs:
             - name: Build Next.js App
               run: npm run build
 
+            - name: Create Sentry Release
+              id: create_release
+              uses: getsentry/action-release@v1
+              with:
+                  environment: production
+                  ignore_missing: true
+                  version: ${{ github.sha }}
+
+            - name: Install Sentry CLI
+              run: curl -sL https://sentry.io/get-cli/ | bash
+
+            - name: Upload Source Maps to Sentry
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+                  SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+                  SENTRY_RELEASE: ${{ github.sha }}
+              run: |
+                  sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps --dist 1 --strip-prefix ./ --rewrite ./.next/static/chunks
+
             - name: Login to Docker Hub
               uses: docker/login-action@v3
               with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_TOKEN}}
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: Setup Docker Buildx
               uses: docker/setup-buildx-action@v3
@@ -39,7 +63,8 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/seenit-tasha:latest
+                  no-cache: true
+                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/seenit-devops:latest
                   build-args: |
                       TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
 
@@ -51,23 +76,11 @@ jobs:
             - name: Deploy from Docker Hub to Cloud Run
               uses: google-github-actions/deploy-cloudrun@v2
               with:
-                  service: devops-seenit
-                  image: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/devops-tasha:latest
+                  service: seenit-devops
+                  image: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/seenit-devops:latest
                   region: ${{ secrets.GCP_REGION }}
                   project_id: ${{ secrets.GCP_PROJECT_ID }}
                   timeout: 900
-                  env_vars: TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
-
-            - name: Checkout repository # add ini buat sentry
-              uses: actions/checkout@v4
-              with:
-                fetch-depth: 0  
-
-            - name: Create Sentry release # add ini buat sentry
-              uses: getsentry/action-release@v1
-              with:
-                  environment: production
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-                  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-                  SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+                  env_vars: |
+                      TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
+                      SENTRY_RELEASE=${{ steps.create_release.outputs.release }}

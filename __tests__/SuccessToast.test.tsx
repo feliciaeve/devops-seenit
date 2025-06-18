@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import SuccessToast from './SuccessToast';
+import SuccessToast from '../components/SuccessToast';
 
 describe('SuccessToast', () => {
     it('displays the success message', () => {

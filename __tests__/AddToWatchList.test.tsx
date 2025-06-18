@@ -1,14 +1,12 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import AddToWatchlist from './AddToWatchList';
+import AddToWatchlist from '../components/AddToWatchList';
 
-// Mock toast
 jest.mock('react-hot-toast', () => ({
     __esModule: true,
     default: jest.fn(),
     error: jest.fn(),
 }));
 
-// Mock useWatchlist hook
 jest.mock('@/hooks/use-watchlist', () => ({
     useWatchlist: jest.fn(),
 }));

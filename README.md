@@ -13,6 +13,7 @@ For further ReadMe Configuration, access [ReadMeDocumentation](https://docs.goog
 ## Table of Contents
 
 -   [Features](#features)
+-   [Setup Environment & Tools](#setup-environment--tools) 
 -   [Setup Instructions](#setup-instructions)
 -   [Live Demo](#live-demo)
 -   [License](#license)
@@ -28,6 +29,58 @@ For further ReadMe Configuration, access [ReadMeDocumentation](https://docs.goog
 -   Rating & Review Feature : Allows users to give ratings and reviews for movies they have watched.
 -   History Page : Displays a history of movies the user has watched and reviewed.
 -   Logout : Allows users to sign out from the SeenIt web application.
+
+## Setup Environment & Tools
+
+To run this project smoothly, you need to set up the following external services:
+
+### 1. TMDB API Key
+- Register at [TMDB](https://www.themoviedb.org/)
+- Create an API Key on your account settings page
+- Add it to the `.env.local` file
+
+### 2. Firebase
+- Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+- Enable Authentication (for example, Email/Password sign-in).
+- Set up Firestore or Realtime Database according to your requirements.
+- Retrieve your Firebase SDK config from **Project Settings > General > Your apps > Firebase SDK config**.
+- Add the following keys to your `.env.local` file
+
+### 3. Google Cloud Platform (GCP) & Cloud Run
+- Create a new project in the [Google Cloud Console](https://console.cloud.google.com/).
+- Enable the **Cloud Run API** for your project.
+- Create a **Service Account** with the following roles:
+  - Cloud Run Admin
+  - Storage Admin
+- Generate and download the JSON key file for this service account.
+- Store this JSON key file as a secret named `GCP_SA_KEY` in your GitHub repository.
+- Also add the following GitHub secrets:
+  - `GCP_PROJECT_ID` (your Google Cloud project ID)
+  - `GCP_REGION` (the region where you want to deploy the Cloud Run service, e.g., `asia-southeast2`)
+
+### 4. Docker Hub (Container Registry)
+- Create a Docker Hub account at [https://hub.docker.com/](https://hub.docker.com/)
+- Create a new repository for your project
+- Generate a **Personal Access Token** (or use your password) for authentication
+- Store your Docker Hub credentials as GitHub secrets:
+  - `DOCKERHUB_USERNAME`
+  - `DOCKERHUB_TOKEN`
+- These secrets will be used in your CI/CD workflow to build and push Docker images automatically
+
+### 5. GitHub Secrets (for CI/CD)
+Set the following secrets in your GitHub repository settings under **Settings > Secrets and variables > Actions**:
+
+- `TMDB_API_KEY`
+- `SENTRY_AUTH_TOKEN` (optional, if using Sentry)
+- `SENTRY_ORG`
+- `SENTRY_PROJECT`
+- `DOCKERHUB_USERNAME`
+- `DOCKERHUB_TOKEN`
+- `GCP_SA_KEY`
+- `GCP_PROJECT_ID`
+- `GCP_REGION`
+- Firebase environment variables (optional, for security)
+
 
 ## Setup Instructions
 
@@ -132,7 +185,7 @@ The application interacts with the following TMDB API endpoints:
 You can view the live application at:
 
 ```
-https://seenit-656120882618.asia-southeast2.run.app
+https://seenit-devops-656120882618.asia-southeast2.run.app
 ```
 
 ## License

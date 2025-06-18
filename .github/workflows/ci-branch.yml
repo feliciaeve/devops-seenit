@@ -1,8 +1,7 @@
-name: CI Branch Workflow
+name: CI Branch
 
 on:
     push:
-        # Trigger untuk semua branch kecuali main
         branches-ignore:
             - main
 
@@ -33,7 +32,7 @@ jobs:
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   commit-message: 'Automated tests passed, creating PR to main'
-                  branch: ${{ github.ref_name }}-pr-to-main
+                  branch: ${{ github.ref_name }}-pr-to-main-${{ github.run_number }}
                   base: main
                   title: 'Auto PR: Merge `${{ github.ref_name }}` into main'
                   body: |

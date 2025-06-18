@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import MovieCardWatchlistWrapper from './MovieCardWatchlistWrapper';
+import MovieCardWatchlistWrapper from '../components/MovieCardWatchlistWrapper';
 
 jest.mock('@/hooks/use-watchlist', () => ({
     useWatchlist: jest.fn(() => ({

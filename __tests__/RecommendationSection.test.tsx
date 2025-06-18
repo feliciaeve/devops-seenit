@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import RecommendationSection from './RecommendationSection';
+import RecommendationSection from '../components/RecommendationSection';
 
-jest.mock('./MovieCard', () => ({ movie }: { movie: any }) => (
+jest.mock('../components/MovieCard', () => ({ movie }: { movie: any }) => (
     <div data-testid="movie-card">{movie.title}</div>
 ));
 
