@@ -19,6 +19,7 @@ module.exports = {
         '**/?(*.)+(spec|test).(ts|tsx|js)',
     ],
     collectCoverageFrom: [
+        'actions/**/*.{ts,tsx}',
         'app/**/*.{ts,tsx}',
         'components/**/*.{ts,tsx}',
         '!components/LazyImage.tsx',
