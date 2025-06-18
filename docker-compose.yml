@@ -7,7 +7,7 @@ services:
       args:
         TMDB_API_KEY: ${TMDB_API_KEY}
     ports:
-      - "3000:3000"
+      - "3001:3000"
     networks:
       - seenit-net
     environment:
@@ -25,10 +25,22 @@ services:
   grafana:
     image: grafana/grafana
     ports:
-      - "3100:3000"
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - seenit-net
+
+  blackbox:
+    image: prom/blackbox-exporter
+    ports:
+      - "9115:9115"
     networks:
       - seenit-net
 
 networks:
   seenit-net:
     driver: bridge
+
+volumes:
+  grafana-data:
