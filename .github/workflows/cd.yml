@@ -1,8 +1,8 @@
 name: CD
 
 on:
-  push:
-    branches: [main]
+    push:
+        branches: [main]
 
 jobs:
     deploy:
@@ -34,7 +34,7 @@ jobs:
               uses: getsentry/action-release@v1
               with:
                   environment: production
-                  ignore-missing: true
+                  ignore_missing: true
                   version: ${{ github.sha }}
 
             - name: Install Sentry CLI
@@ -63,6 +63,7 @@ jobs:
               with:
                   context: .
                   push: true
+                  no-cache: true
                   tags: ${{ secrets.DOCKERHUB_USERNAME }}/seenit-devops:latest
                   build-args: |
                       TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}

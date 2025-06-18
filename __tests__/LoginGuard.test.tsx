@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import LoginGuard from './LoginGuard';
+import LoginGuard from '../components/LoginGuard';
 import { onAuthStateChanged } from 'firebase/auth';
 
 jest.mock('firebase/auth', () => ({
@@ -8,7 +8,7 @@ jest.mock('firebase/auth', () => ({
 jest.mock('@/firebase', () => ({
     auth: {},
 }));
-jest.mock('./AuthForm', () => ({
+jest.mock('../components/AuthForm', () => ({
     __esModule: true,
     default: () => <div>Auth Form</div>,
 }));
